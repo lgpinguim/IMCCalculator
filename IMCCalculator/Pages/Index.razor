@@ -1,0 +1,56 @@
+﻿@using IMCCalculator.Models
+@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<h3>Calculadora de IMC</h3>
+
+<div>
+    <label for="peso">Peso (kg):</label>
+    <input id="peso" type="number" @bind="imc.Peso" placeholder="0.00" />
+</div>
+
+<div>
+    <label for="altura">Altura (cm):</label>
+    <input id="altura" type="number" @bind="imc.Altura" placeholder="0.00"  />
+</div>
+
+<button @onclick="CalcularIMC">Calcular</button>
+
+@if (imc.Resultado != null)
+{
+    <div>
+        <h4>Seu IMC é: @imc.Resultado</h4>
+        <p>@InterpretarIMC(imc.Resultado)</p>
+    </div>
+}
+
+@code {
+    private IMC imc = new IMC();
+
+    private string InterpretarIMC(double imc)
+    {
+        switch (imc)
+        {
+            case < 18.5:
+                return "Abaixo do peso";
+            case >= 18.5 and < 25:
+                return "Peso normal";
+            case >= 25 and < 30:
+                return "Sobrepeso";
+            case >= 30 and < 35:
+                return "Obesidade grau 1";
+            case >= 35 and < 40:
+                return "Obesidade grau 2";
+            default:
+                return "Obesidade grau 3";
+        }
+    }
+
+    private void CalcularIMC()
+    {
+        imc.CalculaIMC();
+    }
+}
+
+
